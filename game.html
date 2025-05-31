@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let actions = ['rock' , 'paper' , 'scissors'];
+        let humanScore = 0;
+        let computerScore = 0;
+        let rounds = 1;
+
+        //randomly returns an action
+        function getComputerChoice(){
+            let index = Math.floor(Math.random() * actions.length);
+            return actions[index];
+        }
+
+        //gets players input
+        function getHumanChoice()
+        {
+            let choice = prompt("Enter your choice: rock , paper or scissors ");
+            return choice;
+        }
+
+        function playRound(humanChoice, computerChoice){
+
+            //removing case sensitivty
+            humanChoice = humanChoice.toLowerCase();
+            computerChoice = computerChoice.toLowerCase();
+
+            //switch statements to decide round winner
+            let matchup = `${humanChoice.toLowerCase()} vs ${computerChoice.toLowerCase()}`;
+
+            switch(matchup){
+                //player wins
+                case "rock vs scissors":
+                case "paper vs rock":
+                case "scissors vs paper":
+                    humanScore+=1;
+                    return "You Win! :)";
+
+                //computer wins
+                case "scissors vs rock":
+                case "rock vs paper":
+                case "paper vs scissors":
+                    computerScore+=1;
+                    return "Computer wins :(";
+
+                //tie cases
+                case "rock vs rock":
+                case "paper vs paper":
+                case "scissors vs scissors":
+                    return "It's a tie!";
+
+                default:
+                    return "Invalid input"
+            }
+        }
+
+        //main game function
+        function playGame(){
+            while (rounds<=5)
+            {
+                console.log(`Round: ${rounds}`)
+                let humanChoice = getHumanChoice();
+                let computerChoice = getComputerChoice();
+
+                console.log(`You chose: ${humanChoice}`);
+                console.log(`Computer chose: ${computerChoice}`);
+
+                let result = playRound(humanChoice, computerChoice);
+                console.log(result)
+                rounds+=1;
+            }
+
+            if(humanScore > computerScore){
+                console.log('You Win!!');
+            }
+
+            else if (humanScore < computerScore){
+                console.log("You Lose")
+            }
+
+            else if (humanScore == computerScore){
+                console.log('Its a Tie')
+            }
+        }
+
+        playGame();
+    </script>
+</body>
+</html>
+
+
+
+
+
