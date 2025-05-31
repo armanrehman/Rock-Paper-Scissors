@@ -73,22 +73,27 @@
 
                 let result = playRound(humanChoice, computerChoice);
                 console.log(result)
-                rounds+=1;
+
+                //only increment if valid round
+                if (result !== "Invalid input") {
+                    rounds += 1;
+                } else {
+                    console.log("Please enter a valid input: rock, paper, or scissors.");
+                }
             }
 
             if(humanScore > computerScore){
-                console.log('You Win!!');
+                console.log('You win the game!!');
             }
 
             else if (humanScore < computerScore){
-                console.log("You Lose")
+                console.log("You lose the game")
             }
 
             else if (humanScore == computerScore){
-                console.log('Its a Tie')
+                console.log('The game has tied')
             }
         }
-
         playGame();
     </script>
 </body>
