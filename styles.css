@@ -1,0 +1,73 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body{
+    font-family: Arial,sans-serif;
+    text-align: center;
+    background-color: #f0f8ff;
+    color: black;
+    margin: 0;
+    padding: 40px;
+}
+
+.buttons{
+    margin-bottom: 30px;
+}
+
+
+button {
+    padding: 15px 25px;
+    margin: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #d0eaff;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.finished {
+    margin-top: 30px;
+}
+
+.Result, .Score {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.Winner {
+    font-size: 36px;
+    font-weight: bold;
+    color: green;
+    margin-top: 40px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.reset-btn {
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: 2px solid #4CAF50;
+}
+
+.reset-btn:hover {
+    background-color: #45a049;
+}
