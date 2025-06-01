@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
     <link rel="stylesheet" href="styles.css">
-    <title>Document</title>
 </head>
 <body>
     <div class="buttons">
@@ -67,11 +67,11 @@
             }
         }
 
-        function updateScore(resutl,humanChoice,computerChoice)
+        function updateScore(result,humanChoice,computerChoice)
         {
             //removing all other children (since score updated)
             resultDiv.querySelectorAll("p").forEach(p=>p.remove());
-            scoreDiv.querySelectorAll("p").forEach(p=>p.remove);
+            scoreDiv.querySelectorAll("p").forEach(p=>p.remove());
 
             //new result and score para
             const resultPara = document.createElement("p");
@@ -86,12 +86,12 @@
         //checking for winner after 5 rounds are over
         function checkWinner()
         {
-            if (rounds < 5)
+            if (rounds == 5)
             {
                 //game ended
                 document.querySelectorAll("button").forEach(btn => btn.disabled=true);
-                const WinnerText = document.createElement("h1");
-                WinnerText.classList.add("Winner");
+                const winnerText = document.createElement("h1");
+                winnerText.classList.add("Winner");
 
                 if (humanScore > computerScore) {
                 winnerText.textContent = "You won the game! 🎉";
@@ -100,11 +100,35 @@
                 } else {
                     winnerText.textContent = "It's a tie game!";
                 }
-                document.body.appendChild(WinnerText);
+                document.body.appendChild(winnerText);
+
+                //added reset button
+                const resetBtn = document.createElement("button");
+                resetBtn.textContent = "Play Again";
+                resetBtn.classList.add("reset-btn");
+                resetBtn.addEventListener("click", resetGame);
+
+                document.body.appendChild(winnerText);
+                document.body.appendChild(resetBtn);
             }
         }
 
-        document.querySelectorAll('button').forEach(button =>{
+        function resetGame(){
+            humanScore = 0;
+            computerScore = 0;
+            rounds = 1;
+
+            //enabling buttons
+            document.querySelectorAll("button:not(.reset-btn)").forEach(btn => btn.disabled = false);
+
+            resultDiv.querySelectorAll("p").forEach(p => p.remove());
+            scoreDiv.querySelectorAll("p").forEach(p => p.remove());
+
+            document.querySelector(".Winner")?.remove();
+            document.querySelector(".reset-btn")?.remove();
+        }
+
+        document.querySelectorAll('button:not(.reset-btn)').forEach(button =>{
             button.addEventListener('click', () => {
                 if (rounds>5) return;
 
@@ -113,9 +137,13 @@
                 const result = playRound(humanChoice, computerChoice);
 
                 updateScore(result,humanChoice,computerChoice);
-                rounds+=1;
 
-                checkWinner();
+                //checking winner before incrementing
+                if(rounds==5){
+                    checkWinner();
+                }
+
+                rounds += 1;
         });
     });
     </script>
