@@ -3,14 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Document</title>
 </head>
 <body>
+    <div class="buttons">
+        <button class="Rock">Rock</button>
+        <button class="Paper">Paper</button>
+        <button class="Scissors">Scissors</button>
+    </div>
+
+    <div class="finished">
+        <div class="Result">
+            <h3>Result:</h3>
+        </div>
+
+        <div class="Score">
+            <h3>Score:</h3>
+        </div>
+    </div>
+
     <script>
         let actions = ['rock' , 'paper' , 'scissors'];
         let humanScore = 0;
         let computerScore = 0;
         let rounds = 1;
+        const resultDiv = document.querySelector(".Result")
+        const scoreDiv = document.querySelector(".Score")
 
         //randomly returns an action
         function getComputerChoice(){
@@ -18,19 +37,7 @@
             return actions[index];
         }
 
-        //gets players input
-        function getHumanChoice()
-        {
-            let choice = prompt("Enter your choice: rock , paper or scissors ");
-            return choice;
-        }
-
         function playRound(humanChoice, computerChoice){
-
-            //removing case sensitivty
-            humanChoice = humanChoice.toLowerCase();
-            computerChoice = computerChoice.toLowerCase();
-
             //switch statements to decide round winner
             let matchup = `${humanChoice.toLowerCase()} vs ${computerChoice.toLowerCase()}`;
 
@@ -60,41 +67,57 @@
             }
         }
 
-        //main game function
-        function playGame(){
-            while (rounds<=5)
+        function updateScore(resutl,humanChoice,computerChoice)
+        {
+            //removing all other children (since score updated)
+            resultDiv.querySelectorAll("p").forEach(p=>p.remove());
+            scoreDiv.querySelectorAll("p").forEach(p=>p.remove);
+
+            //new result and score para
+            const resultPara = document.createElement("p");
+            resultPara.textContent = `You chose ${humanChoice}, Computer chose ${computerChoice}. ${result}`;
+            resultDiv.appendChild(resultPara);
+
+            const scorePara = document.createElement("p");
+            scorePara.textContent = `You: ${humanScore} | Computer: ${computerScore} (Round ${rounds}/5)`;
+            scoreDiv.appendChild(scorePara);
+        }
+
+        //checking for winner after 5 rounds are over
+        function checkWinner()
+        {
+            if (rounds < 5)
             {
-                console.log(`Round: ${rounds}`)
-                let humanChoice = getHumanChoice();
-                let computerChoice = getComputerChoice();
+                //game ended
+                document.querySelectorAll("button").forEach(btn => btn.disabled=true);
+                const WinnerText = document.createElement("h1");
+                WinnerText.classList.add("Winner");
 
-                console.log(`You chose: ${humanChoice}`);
-                console.log(`Computer chose: ${computerChoice}`);
-
-                let result = playRound(humanChoice, computerChoice);
-                console.log(result)
-
-                //only increment if valid round
-                if (result !== "Invalid input") {
-                    rounds += 1;
+                if (humanScore > computerScore) {
+                winnerText.textContent = "You won the game! 🎉";
+                } else if (computerScore > humanScore) {
+                    winnerText.textContent = "Computer wins the game!";
                 } else {
-                    console.log("Please enter a valid input: rock, paper, or scissors.");
+                    winnerText.textContent = "It's a tie game!";
                 }
-            }
-
-            if(humanScore > computerScore){
-                console.log('You win the game!!');
-            }
-
-            else if (humanScore < computerScore){
-                console.log("You lose the game")
-            }
-
-            else if (humanScore == computerScore){
-                console.log('The game has tied')
+                document.body.appendChild(WinnerText);
             }
         }
-        playGame();
+
+        document.querySelectorAll('button').forEach(button =>{
+            button.addEventListener('click', () => {
+                if (rounds>5) return;
+
+                const humanChoice = button.textContent;
+                const computerChoice = getComputerChoice();
+                const result = playRound(humanChoice, computerChoice);
+
+                updateScore(result,humanChoice,computerChoice);
+                rounds+=1;
+
+                checkWinner();
+        });
+    });
     </script>
 </body>
 </html>
